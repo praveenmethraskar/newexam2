@@ -3,14 +3,15 @@ services:
   frontend:
     build:
       context: ./client
+    image: praveenmethraskar/mern-frontend:latest
     ports:
       - "3000:3000"
     depends_on:
       - backend
+
   backend:
     build:
       context: ./backend
+    image: praveenmethraskar/mern-backend:latest
     ports:
       - "5000:5000"
-    environment:
-      - MONGO_URI=mongodb://exam-center_mongo_1:27017/exam_center
