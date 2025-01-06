@@ -1,23 +1,26 @@
-# Use the official Node.js image as the base image
-FROM node:14
+# Step 1: Use official Node.js image as base image
+FROM node:14 as build
 
-# Set the working directory inside the container
+# Step 2: Set working directory in the container
 WORKDIR /usr/src/app
 
-# Copy the package.json and package-lock.json first (for efficient caching)
-COPY package*.json ./
+# Step 3: Copy package.json and package-lock.json to the container
+COPY client/package*.json ./
 
-# Install dependencies
+# Step 4: Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
-COPY . .
+# Step 5: Copy the rest of the frontend code
+COPY client/ ./
 
-# Build the React app
+# Step 6: Build the React app for production
 RUN npm run build
 
-# Expose the port your app will run on
+# Step 7: Serve the built React app with a simple server (using serve package)
+RUN npm install -g serve
+
+# Step 8: Expose port 3000
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "start"]
+# Step 9: Start the React application
+CMD ["serve", "-s", "build", "-l", "3000"]
