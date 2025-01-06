@@ -5,23 +5,19 @@ FROM node:14
 WORKDIR /usr/src/app
 
 # Copy the package.json and package-lock.json first (for efficient caching)
-COPY client/package*.json ./
+COPY package*.json ./
 
-# Install dependencies (including axios and babel plugin)
+# Install dependencies
 RUN npm install
 
-# Install axios and Babel plugin specifically
-RUN npm install axios --save
-RUN npm install @babel/plugin-proposal-private-property-in-object --save-dev
-
 # Copy the rest of the application code
-COPY client/ .
+COPY . .
 
 # Build the React app
 RUN npm run build
 
-# Expose the app port (if necessary)
+# Expose the port your app will run on
 EXPOSE 3000
 
-# Command to start the app (if running in production)
+# Start the application
 CMD ["npm", "start"]
