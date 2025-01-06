@@ -17,9 +17,6 @@ spec:
           image: praveenmethraskar/mern-backend:latest
           ports:
             - containerPort: 5000
-          env:
-            - name: MONGO_URI
-              value: "MONGO_URI=mongodb://exam-center_mongo_1:27017/exam_center"
 ---
 apiVersion: v1
 kind: Service
@@ -32,4 +29,4 @@ spec:
     - protocol: TCP
       port: 5000
       targetPort: 5000
-  type: ClusterIP
+  type: LoadBalancer
