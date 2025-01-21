@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: praveenmethraskar/mern-frontend:latest
+          image: praveenmethraskar/client:latest
           ports:
             - containerPort: 3000
 ---
