@@ -1,17 +1,41 @@
-version: '3'
+
+version: "3.7"
+
 services:
   frontend:
     build:
-      context: ./client
-    image: praveenmethraskar/mern-frontend:latest
+      context: .
+      dockerfile: client/Dockerfile
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
+    networks:
+      - app-network
 
   backend:
     build:
-      context: ./backend
-    image: praveenmethraskar/mern-backend:latest
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      - MONGO_URI=mongodb://exam-center_mongo_1:27017/exam_center
     ports:
-      - "5000:5000"
+      - "3001:3001"
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"  # Bind MongoDB to the host machine's port 27017
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
